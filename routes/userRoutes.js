@@ -9,8 +9,11 @@ routes
 
   .post("/signup", tryCatch(loginController.userReg))
   .post("/login", tryCatch(loginController.userLogin))
-  .post("/logout", tryCatch(loginController.userLogout));
+  .post("/logout", tryCatch(loginController.userLogout))
 
-//product Controller
+  //product Controller
+  .get("/product", tryCatch(userProductController.getAllProduct))
+  .get("/productid/:id", tryCatch(userProductController.getProductById))
+  .get("/product/:type", tryCatch(userProductController.getProductType));
 
 module.exports = routes;
