@@ -23,32 +23,38 @@ const getUserWishlist = async (req, res) => {
 
 const addToWishlist = async (req, res, next) => {
   const { productId } = req.body;
-  if (!productId) {
-    return next(new customError("product id is required", 400));
-  }
-  //check if product is already in wishlist and update qty
-  let newWishlist = await wishlistSchema.findOneAndUpdate(
-    { userId: req.user.id },
-    { $addToSet: { products: productId } },
-    { new: true }
-  );
 
-  //if no wishlist found create new wishlist
-  if (!newWishlist) {
-    newWishlist = new wishlistSchema({
-      userId: req.user.id,
-      products: [productId],
-    });
-    await newWishlist.save();
-    return res.status(201).json(newWishlist);
+  if (!productId) {
+    return next(new customError("Product ID is required", 400));
   }
-  res.status(200).json({ message: "product added to wishlist" });
+
+  try {
+    let wishlist = await wishlistSchema.findOne({ userId: req.user.id });
+
+    if (!wishlist) {
+      wishlist = new wishlistSchema({
+        userId: req.user.id,
+        products: [productId],
+      });
+    } else if (!wishlist.products.includes(productId)) {
+      wishlist.products.push(productId);
+    }
+
+    await wishlist.save();
+
+    res.status(200).json({ message: "Product added to wishlist", wishlist });
+  } catch (error) {
+    next(new customError("Failed to add product to wishlist", 500));
+  }
 };
 
 //3.to remove product from user wishlist
 
 const removeFromWishlist = async (req, res, next) => {
   const { productId } = req.body;
+  if (!productId) {
+    return next(new customError("Product is required", 400));
+  }
   const newWishlist = await wishlistSchema.findOneAndUpdate(
     { userId: req.user.id },
     { $pull: { products: productId } },

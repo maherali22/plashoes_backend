@@ -1,11 +1,12 @@
 const express = require("express");
-const routes = express.Router();
 const tryCatch = require("../middleware/trycatch");
 const loginController = require("../controller/common/authController");
 const userProductController = require("../controller/user/userProductController");
 const userCartController = require("../controller/user/userCartController");
 const userWishlistController = require("../controller/user/userWishlistController");
+const userOrderController = require("../controller/user/userOrderController");
 const verifyToken = require("../middleware/authentication");
+const routes = express.Router();
 
 routes
   //user registration and login
@@ -39,6 +40,21 @@ routes
     "/wishlist",
     verifyToken,
     tryCatch(userWishlistController.removeFromWishlist)
+  )
+
+  // order controller
+
+  .get("/order", verifyToken, tryCatch(userOrderController.getAllOrders))
+  .get(
+    "/order/:orderId",
+    verifyToken,
+    tryCatch(userOrderController.getOneOrder)
+  )
+  .post("/order", verifyToken, tryCatch(userOrderController.orderCOD))
+  .patch(
+    "/order/cancel/:orderId",
+    verifyToken,
+    tryCatch(userOrderController.cancelOneOrder)
   );
 
 module.exports = routes;

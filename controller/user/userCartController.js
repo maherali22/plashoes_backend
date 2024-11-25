@@ -68,8 +68,9 @@ const updateUserCart = async (req, res, next) => {
 const removeFromCart = async (req, res) => {
   //finding cart by userId and removing product from cart
   const cart = await cartSchema.findOneAndUpdate(
-    { userId: req.user.id },
-    { $pull: { products: { productId: req.params.productId } } },
+    { userId: req.user.id, "products.productId": req.body.productId },
+    
+    { $pull: { products: { productId: req.body.productId } } },
     { new: true }
   );
   if (cart) {

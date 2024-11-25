@@ -1,7 +1,7 @@
 const customError = require("../utils/customError");
 
 const manageError = (err, req, res, next) => {
-  // Log the error for debugging 
+  // Log the error for debugging
   console.error(err);
 
   if (err instanceof customError) {
