@@ -5,6 +5,12 @@ const app = express();
 const userRoute = require("./routes/userRoutes");
 app.use(express.json());
 app.use(userRoute);
+app.all("*", (req, res) => {
+  res.status(404).json({
+    status: "fail",
+    message: "cannot access this end point",
+  });
+});
 
 mongoose
   .connect(process.env.MONGOOSE_URL)

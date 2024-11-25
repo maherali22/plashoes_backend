@@ -2,24 +2,33 @@ const user = require("../../modles/schema/userSchema");
 const joischema = require("../../modles/joischema/validation");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const customError = require("../../utils/customError");
+
+const createToken = (id) => {
+  return jwt.sign({ id }, process.env.JWT_TOKEN);
+};
+
 // user registration
 const userReg = async (req, res, next) => {
   const { value, error } = joischema.joiUserSchema.validate(req.body);
   const { name, email, number, password, confirmpassword } = value;
 
   if (error) {
-    return res.status(404).json({
-      status: "error",
-      message: error.message,
-    });
+    return next(new customError(error.details[0].message, 404));
   }
+
+  const existUser = await user.findOne({ email });
+  if (existUser) {
+    return next(new customError("user already exist", 404));
+  }
+
   if (password !== confirmpassword) {
     return res.status(404).json({
       status: "error",
       message: "password and confirm password not match",
     });
   }
-
+  //hashed and salt password
   const hashedPassword = await bcrypt.hash(password, 8);
   const newUser = new user({
     name,
@@ -31,7 +40,6 @@ const userReg = async (req, res, next) => {
   res.status(200).json({
     status: "success",
     message: "user registered successfully",
-    data: newUser,
   });
 };
 
@@ -46,11 +54,15 @@ const userLogin = async (req, res, next) => {
     });
   }
   const userData = await user.findOne({ email });
-  res.status(200).json({
-    status: "success",
-    message: "user login successfully",
-    data: userData,
-  });
+  if (!userData) {
+    return next(new customError("user not found", 401));
+  }
+  const isMatch = await bcrypt.compare(password, userData.password);
+  if (!isMatch) {
+    return next(new customError("password is incorrect", 401));
+  }
+  const token = createToken(userData._id);
+  res.json({ success: true, token });
 };
 
 // user logout
