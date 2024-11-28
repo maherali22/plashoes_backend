@@ -13,7 +13,7 @@ routes
 
   .post("/signup", tryCatch(loginController.userReg))
   .post("/login", tryCatch(loginController.userLogin))
-  .post("/logout", tryCatch(loginController.userLogout))
+  
 
   //product Controller
   .get("/product", tryCatch(userProductController.getAllProduct))

@@ -65,22 +65,5 @@ const userLogin = async (req, res, next) => {
   res.json({ success: true, token });
 };
 
-// user logout
 
-const userLogout = async (req, res, next) => {
-  const { value, error } = joischema.joiUserLogin.validate(req.body);
-  const { email, password } = value;
-  if (error) {
-    return res.status(404).json({
-      status: "error",
-      message: error.message,
-    });
-  }
-  const userData = await user.findOne({ email });
-  res.status(200).json({
-    status: "success",
-    message: "user logout successfully",
-    data: userData,
-  });
-};
-module.exports = { userReg, userLogin, userLogout };
+module.exports = { userReg, userLogin };
