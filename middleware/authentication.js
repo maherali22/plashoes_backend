@@ -24,6 +24,3 @@ const verifyToken = (req, res, next) => {
 };
 
 module.exports = verifyToken;
-// Compare this snippet from backend/controller/user/userCartController.js:
-//ncgbhfvbybhudgycfhuchfuyfyvhhfviuvnhfbhjbjhvbhfbvhhfhhrhbdhhcbbchfhbcudhchdch
-
