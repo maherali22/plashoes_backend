@@ -8,6 +8,7 @@ const userSchema = new mongoose.Schema(
     password: { type: String, required: true, trim: true },
     isAdmin: { type: Boolean, default: false },
     isBlocked: { type: Boolean, default: false },
+    refreshToken: { type: String },
   },
   { timestamps: true }
 );

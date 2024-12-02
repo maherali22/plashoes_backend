@@ -1,19 +1,13 @@
 const express = require("express");
 const tryCatch = require("../middleware/trycatch");
-const loginController = require("../controller/common/authController");
 const userProductController = require("../controller/user/userProductController");
 const userCartController = require("../controller/user/userCartController");
 const userWishlistController = require("../controller/user/userWishlistController");
 const userOrderController = require("../controller/user/userOrderController");
-const verifyToken = require("../middleware/authentication");
+const { verifyToken } = require("../middleware/authentication");
 const routes = express.Router();
 
 routes
-  //user registration and login
-
-  .post("/signup", tryCatch(loginController.userReg))
-  .post("/login", tryCatch(loginController.userLogin))
-  
 
   //product Controller
   .get("/product", tryCatch(userProductController.getAllProduct))
