@@ -6,14 +6,14 @@ const customError = require("../../utils/customError");
 
 const createToken = (id, isAdmin) => {
   return jwt.sign({ id, isAdmin }, process.env.JWT_TOKEN, {
-    expiresIn: "12h",
+    expiresIn: "7d",
   });
 };
 
 // Create refresh token
 const createRefreshToken = (id, isAdmin) => {
   return jwt.sign({ id, isAdmin }, process.env.JWT_REFRESH_TOKEN, {
-    expiresIn: "7d",
+    expiresIn: "14d",
   });
 };
 

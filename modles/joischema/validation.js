@@ -29,7 +29,7 @@ const joiProductSchema = joi.object({
   qty: joi.number().required(),
   description: joi.string().optional(),
   brand: joi.string().required(),
-  rating: joi.number().required().min(1).max(5),
+  rating: joi.number().min(1).max(5),
   reviews: joi.number().optional(),
   isDeleted: joi.boolean().default(false).optional(),
 });

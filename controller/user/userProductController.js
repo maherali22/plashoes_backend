@@ -2,7 +2,7 @@ const product = require("../../modles/schema/productSchema");
 
 const getAllProduct = async (req, res) => {
   const allProduct = await product.find();
-  console.log(allProduct);
+
   res.status(200).json({
     status: "success",
     message: "all product get successfully",
@@ -12,10 +12,7 @@ const getAllProduct = async (req, res) => {
 
 const getProductType = async (req, res) => {
   const type = req.params.type;
-  console.log(type);
-
   const productType = await product.find({ type: type });
-  console.log(productType);
   res.status(200).json({
     status: "success",
     message: "product get by type successfully",
