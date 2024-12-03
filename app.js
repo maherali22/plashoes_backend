@@ -7,14 +7,13 @@ const authRoute = require("./routes/authRoutes");
 const adminRoute = require("./routes/adminRoutes");
 const connectCloudinary = require("./config/cloudinary");
 const cookieParser = require("cookie-parser");
-const helmet = require("helmet");
 const app = express();
 dotenv.config();
 //Connect to cloudinary
 connectCloudinary();
 //Middlewares
-app.use(helmet());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 //Routes
 app.use("/user", userRoute);

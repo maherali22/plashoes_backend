@@ -44,7 +44,22 @@ routes
     verifyToken,
     tryCatch(userOrderController.getOneOrder)
   )
-  .post("/order", verifyToken, tryCatch(userOrderController.orderCOD))
+  .get(
+    "/order/publicKey",
+    verifyToken,
+    tryCatch(userOrderController.publicKeySend)
+  )
+  .post("/order/cod", verifyToken, tryCatch(userOrderController.orderCOD))
+  .post(
+    "/order/stripe/checkout",
+    verifyToken,
+    tryCatch(userOrderController.orderWithStripe)
+  )
+  .patch(
+    "/order/stripe/success/:sessionId",
+    verifyToken,
+    tryCatch(userOrderController.stripeSuccess)
+  )
   .patch(
     "/order/cancel/:orderId",
     verifyToken,
