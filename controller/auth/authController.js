@@ -74,6 +74,15 @@ const userLogin = async (req, res, next) => {
   if (userData.isBlocked) {
     return next(new customError("user is blocked", 403));
   }
+  //check if user is admin
+  if (userData.isAdmin) {
+    return next(
+      new customError(
+        "access denied please use another eamil, this eamil already taken ",
+        403
+      )
+    );
+  }
   //check if password is correct
   const isMatch = await bcrypt.compare(password, userData.password);
   if (!isMatch) {

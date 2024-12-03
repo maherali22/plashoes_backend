@@ -28,7 +28,7 @@ const verifyToken = (req, res, next) => {
   }
 };
 
-const verifyAdmin = (req, res, next) => {
+const verifyAdminToken = (req, res, next) => {
   try {
     // The `req.user` should be populated by the `verifyToken` middleware
     if (!req.user) {
@@ -50,5 +50,5 @@ const verifyAdmin = (req, res, next) => {
 
 module.exports = {
   verifyToken,
-  verifyAdmin,
+  verifyAdminToken,
 };

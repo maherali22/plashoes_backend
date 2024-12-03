@@ -1,19 +1,24 @@
-require("dotenv").config();
-const manageError = require("./middleware/manageError");
 const express = require("express");
+const dotenv = require("dotenv");
+const manageError = require("./middleware/manageError");
 const mongoose = require("mongoose");
 const userRoute = require("./routes/userRoutes");
 const authRoute = require("./routes/authRoutes");
+const adminRoute = require("./routes/adminRoutes");
+const connectCloudinary = require("./config/cloudinary");
 const cookieParser = require("cookie-parser");
 const helmet = require("helmet");
 const app = express();
-
+dotenv.config();
+//Connect to cloudinary
+connectCloudinary();
 //Middlewares
 app.use(helmet());
 app.use(express.json());
 app.use(cookieParser());
 //Routes
 app.use("/user", userRoute);
+app.use("/admin", adminRoute);
 app.use("/auth", authRoute);
 //catch all unhandled routes
 app.all("*", (req, res) => {
