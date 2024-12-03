@@ -25,12 +25,12 @@ const orderSchema = new mongoose.Schema(
     sessionId: {
       type: String,
     },
-    // Date of purchase, defaults to the current date and time
+
     purchaseDate: {
       type: Date,
       default: Date.now,
     },
-    // Address object for shipping details
+
     address: {
       type: Object,
       required: true,
@@ -47,16 +47,17 @@ const orderSchema = new mongoose.Schema(
       enum: ["pending", "paid", "failed"],
     },
     // Payment method (e.g., cash on delivery, card)
-    paymentMethod: {
-      type: String,
-      default: "cash on delivery",
-      enum: ["cash on delivery", "card", "online banking"],
-    },
+    // paymentMethod: {
+    //   type: String,
+    //   default: "cash on delivery",
+    //   enum: ["cash on delivery", "card", "online banking"],
+    // },
+
     // Shipping status of the order
     shippingStatus: {
       type: String,
-      default: "pending", 
-      enum: ["pending", "processing", "shipped", "delivered", "cancelled"], 
+      default: "pending",
+      enum: ["pending", "processing", "shipped", "delivered", "cancelled"],
     },
   },
   {

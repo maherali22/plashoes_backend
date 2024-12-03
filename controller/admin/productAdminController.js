@@ -23,3 +23,41 @@ const createProduct = async (req, res, next) => {
     message: "product created successfully",
   });
 };
+
+// update product
+const updateProduct = async (req, res, next) => {
+  const newProduct = await product.findById(req.params.id);
+  if (!newProduct) {
+    return next(new customError("Product not found", 404));
+  }
+  //update product image if uploaded new image
+  let image = newProduct.image;
+  if (req.file) image = req.file.path;
+  newProduct.set({
+    ...req.body,
+    image: image,
+  });
+  await newProduct.save();
+  res.status(200).json({
+    message: "product updated successfully",
+  });
+};
+
+// delete product
+const deleteProduct = async (req, res, next) => {
+  const deleteProduct = await product.findByIdAndDelete(
+    req.params.id,
+    { $set: { isDeleted: !isDeleted } },
+    { new: true }
+  );
+  if (!deleteProduct) return next(new customError("Product not found", 404));
+  res.status(200).json({
+    message: "product deleted successfully",
+  });
+};
+
+module.exports = {
+  createProduct,
+  updateProduct,
+  deleteProduct,
+};
