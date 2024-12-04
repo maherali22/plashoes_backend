@@ -44,11 +44,6 @@ routes
     verifyToken,
     tryCatch(userOrderController.getOneOrder)
   )
-  .get(
-    "/order/publicKey",
-    verifyToken,
-    tryCatch(userOrderController.publicKeySend)
-  )
   .post("/order/cod", verifyToken, tryCatch(userOrderController.orderCOD))
   .post(
     "/order/stripe/checkout",

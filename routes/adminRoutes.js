@@ -3,6 +3,7 @@ const tryCatch = require("../middleware/trycatch");
 const userAdminController = require("../controller/admin/userAdminController");
 const cartAdminController = require("../controller/admin/cartAdminController");
 const productAdminController = require("../controller/admin/productAdminController");
+const orderAdminController = require("../controller/admin/orderAdminController");
 const upload = require("../middleware/multer");
 
 const {
@@ -101,7 +102,43 @@ routes
     verifyToken,
     verifyAdminToken,
     tryCatch(productAdminController.deleteProductfromBin)
+  )
+  //admin order routes
+  .get(
+    "/order",
+    verifyToken,
+    verifyAdminToken,
+    tryCatch(orderAdminController.getTotalOrders)
+  )
+  .get(
+    "/order/user/:id",
+    verifyToken,
+    verifyAdminToken,
+    tryCatch(orderAdminController.getOrderByUser)
+  )
+  .get(
+    "/order/total",
+    verifyToken,
+    verifyAdminToken,
+    tryCatch(orderAdminController.getTotalProductPurchased)
+  )
+  .get(
+    "/order/stats",
+    verifyToken,
+    verifyAdminToken,
+    tryCatch(orderAdminController.getTotalStats)
+  )
+  .patch(
+    "/order/shipping/:id",
+    verifyToken,
+    verifyAdminToken,
+    tryCatch(orderAdminController.updateShippingStatus)
+  )
+  .patch(
+    "/order/payment/:id",
+    verifyToken,
+    verifyAdminToken,
+    tryCatch(orderAdminController.updatePaymentStatus)
   );
-//admin order routes
 
 module.exports = routes;

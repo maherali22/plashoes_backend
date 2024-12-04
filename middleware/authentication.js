@@ -30,7 +30,6 @@ const verifyToken = (req, res, next) => {
 
 const verifyAdminToken = (req, res, next) => {
   try {
-    // The `req.user` should be populated by the `verifyToken` middleware
     if (!req.user) {
       return next(new customError("Authentication failed", 401));
     }
@@ -40,7 +39,6 @@ const verifyAdminToken = (req, res, next) => {
       return next(new customError("Access denied. Admins only", 403));
     }
 
-    // User is admin, proceed to the next middleware/handler
     next();
   } catch (error) {
     console.error("Admin verification error:", error.message);

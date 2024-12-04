@@ -28,9 +28,14 @@ const orderCOD = async (req, res, next) => {
 
   let currentUserCart = await cartSchema.findOneAndUpdate(
     { userId: req.user.id },
-    { $set: { products: [] } }
+    { $set: { products: [] } },
+    { new: true }
   );
-  await currentUserCart.save();
+
+  if (currentUserCart) {
+    await currentUserCart.save();
+  }
+
   await newOrder.save();
   res.status(201).json({ message: "Order placed successfully" });
 };
@@ -102,7 +107,7 @@ const stripeSuccess = async (req, res, next) => {
   const order = await orderSchema.findOne({ sessionId: sessionId });
   if (!order) return next(new customError("Order not found", 404));
   order.paymentStatus = "paid";
-  order.shippingStatus = "pending";
+  order.shippingStatus = "processing";
   await order.save();
 
   await cartSchema.findOneAndUpdate(
