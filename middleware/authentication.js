@@ -46,6 +46,7 @@ const verifyAdminToken = (req, res, next) => {
   }
 };
 
+
 module.exports = {
   verifyToken,
   verifyAdminToken,
