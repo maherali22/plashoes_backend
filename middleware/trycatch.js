@@ -8,4 +8,3 @@ const tryCatch = (func) => async (req, res, next) => {
 };
 
 module.exports = tryCatch;
-// Path: backend/middleware/manageError.js

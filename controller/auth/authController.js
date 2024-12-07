@@ -16,6 +16,12 @@ const createRefreshToken = (id, isAdmin) => {
     expiresIn: "14d",
   });
 };
+const createRefreshToken = (id, isAdmin) => {
+  return jwt.sign({ id, isAdmin }, process.env.JWT_REFRESH_TOKEN, {
+    expiresIn: "14d",
+  });
+};
+
 
 // user registration
 const userReg = async (req, res, next) => {

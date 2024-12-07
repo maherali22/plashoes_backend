@@ -7,14 +7,25 @@ const authRoute = require("./routes/authRoutes");
 const adminRoute = require("./routes/adminRoutes");
 const connectCloudinary = require("./config/cloudinary");
 const cookieParser = require("cookie-parser");
+const cors = require("cors");
 const app = express();
 dotenv.config();
 //Connect to cloudinary
 connectCloudinary();
+//cors
+app.use(
+  cors({
+    origin: process.env.CLIENT_URL,
+    credentials: true,
+  })
+);
 //Middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.get("/", (req, res) => {
+  res.send("backend is running");
+});
 //Routes
 app.use("/user", userRoute);
 app.use("/admin", adminRoute);
